@@ -1,0 +1,109 @@
+/* CRIANDO UM DATABASE */
+
+CREATE DATABASE COMERCIO;
+
+USE COMERCIO;
+
+/* CRIANDO TABELA */
+
+CREATE TABLE CLIENTE(
+	ID_CLIENTE INT PRIMARY KEY AUTO_INCREMENT, /*CHAVE PRIMÁRIA NÚMERICA É O BANCO QUE GERA*/
+	NOME VARCHAR(30) NOT NULL,
+	SEXO ENUM('M','F') NOT NULL,
+	EMAIL VARCHAR(50) UNIQUE , /*ÚNICO, NÃO PODE SE REPERTIR MAS PODE SER NULL*/
+	CPF VARCHAR(11) UNIQUE	
+); 
+
+CREATE TABLE ENDERECO(
+	ID_ENDERECO INT PRIMARY KEY AUTO_INCREMENT,
+	RUA VARCHAR(30) NOT NULL,
+	BAIRRO VARCHAR (30) NOT NULL,
+	CIDADE VARCHAR (30) NOT NULL,
+	ESTADO CHAR(2) NOT NULL,
+	FK_CLIENTE INT UNIQUE, /* CRIANDO A CHAVE ESTRANGEIRA QUE ARMAZENARÁ O DADO DA TABELA PRINCIPAL. OBS.: CARDINALIDADE DE 1X1 */
+	FOREIGN KEY(FK_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE) /* LINKANDO UMA TABELA COM A OUTRA*/
+);
+
+CREATE TABLE TELEFONE (
+	ID_TELEFONE INT PRIMARY KEY AUTO_INCREMENT,
+	TIPO ENUM('RES', 'COM', 'CEL') NOT NULL,
+	NUMERO VARCHAR(10) NOT NULL,
+	FK_CLIENTE INT,
+	FOREIGN KEY(FK_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE) 
+);
+
+/*
+ENDERECO - OBRIGATÓRIO CADASTRO DE SOMENTE UM.
+TELEFONE - NÃO OBRIGATÓRIO; CADASTRO DE MAIS DE UM (OPCIONAL).
+*/
+
+/* INSERINDO DADOS NA TABELA CLIENTE */
+
+INSERT INTO CLIENTE VALUES (NULL, 'JOÃO', 'M', 'JOAOZINHO@INHO.COM', '12345678910');
+INSERT INTO CLIENTE VALUES (NULL, 'CLARA', 'F', NULL, '321654987');
+INSERT INTO CLIENTE VALUES (NULL, 'MARCOS', 'M', 'MARCO@ZERA.COM', '852456937');
+INSERT INTO CLIENTE VALUES (NULL, 'ANA', 'F', 'ANA@UOL.COM', '369852147');
+INSERT INTO CLIENTE VALUES (NULL, 'FERNANDO', 'M', 'FERNONDES@OUTLOOK.COM', '111111111');
+INSERT INTO CLIENTE VALUES (NULL, 'JOANA', 'F', 'JOANA@ZINHA.COM.BR', '000000000');
+
++------------+----------+------+-----------------------+-------------+
+| ID_CLIENTE | NOME     | SEXO | EMAIL                 | CPF         |
++------------+----------+------+-----------------------+-------------+
+|          1 | JOÃO     | M    | JOAOZINHO@INHO.COM    | 12345678910 |
+|          2 | CLARA    | F    | NULL                  | 321654987   |
+|          3 | MARCOS   | M    | MARCO@ZERA.COM        | 852456937   |
+|          4 | ANA      | F    | ANA@UOL.COM           | 369852147   |
+|          5 | FERNANDO | M    | FERNONDES@OUTLOOK.COM | 111111111   |
+|          6 | JOANA    | F    | JOANA@ZINHA.COM.BR    | 000000000   |
++------------+----------+------+-----------------------+-------------+
+
+/* INSERINDO NA TABELA ENDERECO */
+
+INSERT INTO ENDERECO VALUES (NULL,'RUA ANTONIO SÁ', 'CENTRO', 'B. HORIZONTE', 'MG', 4);
+INSERT INTO ENDERECO VALUES (NULL,'RUA ARNALDO VICTALIANO', 'IGUATEMI', 'RIBEIRÃO PRETO', 'SP', 1);
+INSERT INTO ENDERECO VALUES (NULL,'RUA PRESIDENTE VARGAS', 'JARDINS', 'SÃO PAULO', 'SP', 3);
+INSERT INTO ENDERECO VALUES (NULL,'RUA ALFANDEGA ', 'ESTACIO', 'RIO DE JANEIRO', 'RJ', 2);
+INSERT INTO ENDERECO VALUES (NULL,'RUA OUVIDOR', 'FLAMENGO', 'RIO DE JANEIRO', 'RJ', 5);
+INSERT INTO ENDERECO VALUES (NULL,'RUA CAMPO DO MEIO', 'FURNAS', 'SÃO JOSÉ DA BARRA', 'MG', 6);
+
++-------------+------------------------+----------+---------------------+--------+------------+
+| ID_ENDERECO | RUA                    | BAIRRO   | CIDADE              | ESTADO | FK_CLIENTE |
++-------------+------------------------+----------+---------------------+--------+------------+
+|           1 | RUA ANTONIO SÁ         | CENTRO   | B. HORIZONTE        | MG     |          4 |
+|           2 | RUA ARNALDO VICTALIANO | IGUATEMI | RIBEIRÃO PRETO      | SP     |          1 |
+|           3 | RUA PRESIDENTE VARGAS  | JARDINS  | SÃO PAULO           | SP     |          3 |
+|           4 | RUA ALFANDEGA          | ESTACIO  | RIO DE JANEIRO      | RJ     |          2 |
+|           5 | RUA OUVIDOR            | FLAMENGO | RIO DE JANEIRO      | RJ     |          5 |
+|           6 | RUA CAMPO DO MEIO      | FURNAS   | SÃO JOSÉ DA BARRA   | MG     |          6 |
++-------------+------------------------+----------+---------------------+--------+------------+
+-- EM FK_CLIENTE A CHAVE NÃO SE REPETE, ENTÃO 1:1 DE CARDINALIDADE
+
+/* INSERINDO NA TABELA TELEFONE */
+
+INSERT INTO TELEFONE VALUES (NULL, 'CEL','784574328', 5);
+INSERT INTO TELEFONE VALUES (NULL, 'COM','000000000', 3);
+INSERT INTO TELEFONE VALUES (NULL, 'RES','123456789', 2);
+INSERT INTO TELEFONE VALUES (NULL, 'CEL','936428458', 1);
+INSERT INTO TELEFONE VALUES (NULL, 'RES','158997428', 6);
+INSERT INTO TELEFONE VALUES (NULL, 'CEL','985284623', 6);
+INSERT INTO TELEFONE VALUES (NULL, 'CEL','826547892', 4);
+INSERT INTO TELEFONE VALUES (NULL, 'COM','963963147', 4);
+INSERT INTO TELEFONE VALUES (NULL, 'COM','789123654', 3);
+INSERT INTO TELEFONE VALUES (NULL, 'CEL','111555888', 1);
+
++-------------+------+-----------+------------+
+| ID_TELEFONE | TIPO | NUMERO    | FK_CLIENTE |
++-------------+------+-----------+------------+
+|           1 | CEL  | 784574328 |          5 |
+|           2 | COM  | 000000000 |          3 |
+|           3 | RES  | 123456789 |          2 |
+|           4 | CEL  | 936428458 |          1 |
+|           5 | RES  | 158997428 |          6 |
+|           6 | CEL  | 985284623 |          6 |
+|           7 | CEL  | 826547892 |          4 |
+|           8 | COM  | 963963147 |          4 |
+|           9 | COM  | 789123654 |          3 |
+|          10 | CEL  | 111555888 |          1 |
++-------------+------+-----------+------------+
+--FK_CLIENTE A CHAVE SE REPETE, ENTÃO É 0:N DE CARDINALIDADE  
+

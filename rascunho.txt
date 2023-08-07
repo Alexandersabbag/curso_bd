@@ -1,0 +1,40 @@
+/* Performance com os operadores lógicos */
+
+/* Contando os registros de uma tabela */
+USE LIVRARIA;
+SELECT COUNT(*) FROM LIVROS;
+
+SELECT COUNT(*) AS "Quantidade de Livros cadastrados" FROM LIVROS;
+
+DESC LIVROS; -- DESCREVE OS TIPOS DAS VARIAVEIS DA TABELA 
+
+SELECT SX_AUTOR, COUNT(*) FROM LIVROS GROUP BY SX_AUTOR;
+
+SHOW DATABASES;
+
+---------------------------------------------------------------------------------------
+
+USE PROJETO;
+
+SELECT * FROM CLIENTE;
+
+-- SEMPRE DAR UPDATE COM WHERE
+UPDATE CLIENTE SET TELEFONE = ' 123456798 - 852168462 ' WHERE NOME = 'CARLA';
+
+/* CARDINALIDADE */
+
+--(0,N) -> (OBRIGATORIEDADE, CARDINALIDADE)
+--(0,1)
+--(1,N)
+--(1,1)
+
+--NO QUAL O PRIMEIRO ALGORISMO PODE SER 0 -> FALSO (NAO OBRIGATÓRIO) OU 1-> VERDADEIRO (OBRIGATÓRIO)
+--NO QUAL O SEGUNDO ALGORISMO É A OBRIGACAO DE QUANTOS DADOS PODE SER PASSADO, NO CASO DE 1 DADO É SOMENTE 1 DADO. 2 OU + DADOS, N.
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+/* CHAVE ESTRANGEIRAS (FK) */
+
+/*
+É A CHAVE PRIMÁRIA DE UMA TABELA QUE VAI DE UMA TABELA ATÉ A OUTRA PARA FAZER REFERÊNCIA ENTRE REGISTROS.
+*/
